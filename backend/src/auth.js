@@ -9,14 +9,12 @@ async function validate(req, res, next) {
   }
 
   const [, token] = authorization.split(' ');
-  console.log('TOKEN', token)
 
   try {
     await promisify(jwt.verify)(token, 'PRIVATEKEY');
-
     return next();
   } catch (err) {
-    return res.sendStatus(401);
+    return res.send({error: err.message, status: 401});
   }
 }
 

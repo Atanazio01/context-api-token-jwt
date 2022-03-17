@@ -11,7 +11,10 @@ export default function Users() {
   useEffect(() => {
     (async () => {
       const { data } = await api.get('/users');
-
+      if(data.error === 'jwt expired') {
+        localStorage.removeItem('token');
+        return
+      }
       setUsers(data);
     })();
   }, []);
